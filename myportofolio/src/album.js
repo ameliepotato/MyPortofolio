@@ -1,20 +1,23 @@
 import { Button, TextField } from '@mui/material';
 import './App.css';
+import './album.css';
 import { useState } from "react";
+import Gallery from './gallery';
 function Album(props) {
     const [expanded, setExpanded] = useState(props.expanded);
     const [renaming, setRenaming] = useState(false);
     return (
-        <div id={props.id}>
-            {!expanded &&
+        <div id={props.id} className= {expanded?'Div-Border':''}>
+            { (!expanded) && 
                 <div>
                     <Button onClick={() => {
                         setExpanded(true);
                     }}> {props.name}</Button>
-
-
                 </div>
-
+            }
+            {
+                expanded &&
+                <h1> {props.name} </h1>
             }
             {expanded && !renaming &&
                 <Button onClick={() => {
@@ -24,19 +27,15 @@ function Album(props) {
             {expanded &&
                 <div>
                     {renaming &&
-                        <TextField value={props.name}> </TextField >
+                        <TextField variant="outlined" label="album name" defaultValue={props.name}> {props.name} </TextField >
                     }
-                    {!renaming &&
-                        <div>Expanded</div>
-
-                    }
-
-
-
+                    
+                      <Gallery/>
+                    
                     <Button onClick={() => {
                         setExpanded(false);
                         setRenaming(false);
-                    }}> {props.isNew ? "Save" : "Close"}</Button>
+                    }}> Save & Close </Button>
                 </div>
             }
         </div>
