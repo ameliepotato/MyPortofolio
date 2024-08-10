@@ -7,8 +7,8 @@ function Album(props) {
     const [expanded, setExpanded] = useState(props.expanded);
     const [renaming, setRenaming] = useState(false);
     return (
-        <div id={props.id} className= {expanded?'Div-Border':''}>
-            { (!expanded) && 
+        <div id={props.id} className={expanded ? 'Div-Border' : ''}>
+            {(!expanded) &&
                 <div>
                     <Button onClick={() => {
                         setExpanded(true);
@@ -16,22 +16,19 @@ function Album(props) {
                 </div>
             }
             {
-                expanded &&
-                <h1> {props.name} </h1>
-            }
+                expanded && !renaming &&
+                <h1> {props.name}      </h1>}
+
             {expanded && !renaming &&
                 <Button onClick={() => {
                     setRenaming(true);
-                }}> Rename</Button>
+                }}> Rename</Button>}
+            {renaming &&
+                <TextField variant="outlined" label="album name" defaultValue={props.name}> {props.name} </TextField >
             }
             {expanded &&
                 <div>
-                    {renaming &&
-                        <TextField variant="outlined" label="album name" defaultValue={props.name}> {props.name} </TextField >
-                    }
-                    
-                      <Gallery/>
-                    
+                    <Gallery />
                     <Button onClick={() => {
                         setExpanded(false);
                         setRenaming(false);

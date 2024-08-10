@@ -4,7 +4,6 @@ import { useState } from "react";
 import Album from './album';
 
 function Works() {
-    const [albumAdded, setAlbumAdded] = useState(false);
     const [albums, setAlbums] = useState([{ id: "1", name: "one"},{ id: "2", name: "two"},{ id:"3", name:"three"}]);
     return (
         <div id="albums">
@@ -13,15 +12,12 @@ function Works() {
                 <Album name={ album.name } key={album.id} id={album.id} expanded={false}></Album>
            );
         })} 
-            {
-                albumAdded &&
-                <Album id="newAlbum" name="newAlbum" expanded={false} isNew={true}> </Album>
-            }
-            {!albumAdded &&
-                <Button onClick={() => {
-                    setAlbumAdded(true);
+                   <Button onClick={() => {
+                    let copy = [...albums];
+                    copy.push( { id: (albums.length+1).toString(), name: "NewAlbum" + (albums.length-2).toString() } );
+                    setAlbums(copy);
                 }}>Add new album</Button>
-            }
+            
         </div>
     );
 }
