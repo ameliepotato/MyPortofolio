@@ -45,7 +45,7 @@ function Works() {
             })}
             <Button onClick={() => {
                 let copy = [...albums];
-                copy.push({ id: (albums.length + 1).toString(), name: "New Album", pinned: false });
+                copy.push({ id: Date.now().toLocaleString(), name: "New Album", pinned: false });
                 setAlbums(copy);
             }}>Add new album</Button>
 
