@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from "react";
-import { Button, ImageList, ListItemText } from '@mui/material';
+import { Button, ImageList } from '@mui/material';
+import Work from './work';
 
 function Gallery(props) {
     const [photos, setPhotos] = useState([{ id: "1", name: "one" }, { id: "2", name: "two" }, { id: "3", name: "three" }, {id:"4", name:"four"}, {id:"5", name:"five"}]);
@@ -10,7 +11,7 @@ function Gallery(props) {
             <ImageList cols={3}>
                 {photos.map((photo) => {
                     return (
-                        <ListItemText name={photo.name} key={photo.id}> {photo.name}</ListItemText>
+                        <Work name={photo.name} key={photo.id} id={photo.id}> {photo.name}</Work>
                     );
                 })}
                   <Button onClick={() => {
