@@ -5,7 +5,8 @@ import Login from './login';
 import Works from './works';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [hideLogin, setHideLogin] = useState(false);
+  const [publicView, setPublicView] = useState(false);
   return (
     <div className="App">
       <header className="App-header">
@@ -13,19 +14,26 @@ function App() {
           Welcome to your portofolio!
         </p>
       </header>
-      {!loggedIn &&
+      {!hideLogin &&
         <div id="login">
           <Login></Login>
           <Button onClick={() => {
-            setLoggedIn(true);
+            setHideLogin(true);
             document.getElementById("greeting").innerHTML = "Your works"
           }}>Login</Button>
+          <div>
+            <Button variant='text' onClick={() => {
+              setPublicView(true);
+              setHideLogin(true);
+              document.getElementById("greeting").innerHTML = "Public works"
+            }}>Stay anonymous</Button>
+          </div>
         </div>
       }
       {
-        loggedIn &&
-        <div id="works"> 
-          <Works></Works>
+        (hideLogin) &&
+        <div id="works">
+          <Works publicView={publicView}></Works>
         </div>
       }
     </div>
