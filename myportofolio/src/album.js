@@ -20,8 +20,8 @@ function Album(props) {
                 expanded && !renaming &&
                 <div>   <h1> {props.name}      </h1>
                     <Button onClick={() => {
+                        props.pinFn(props.id, !pinned);
                         setPinned(!pinned);
-                        props.pinFn();
                     }}> {pinned ? "Unpin" : "Pin"} </Button>
 
                     <Button onClick={() => {
