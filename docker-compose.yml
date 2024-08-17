@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+    picturesdb:
+        container_name: picturesdb 
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: Example
+        ports:
+            - 27017:27017
+        expose:
+            - "27017"
+    myportofolio:
+        container_name: myportofolio
+        build:
+            context: ./
+            dockerfile: ./myportofolio/Dockerfile
+        depends_on: 
+            - picturesdb
+        ports:
+            - 3000:3000   
+        expose:
+            - "3000" 
+        environment:
+            - DB_CONNECTIONSTRING=mongodb://admin:Example@picturesdb:27017/

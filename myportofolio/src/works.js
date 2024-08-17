@@ -17,6 +17,7 @@ function Works(props) {
         });
         setAlbums(copy);
     }
+    
     function onPin(id, pinned) {
         let copy = [...albums];
         copy.sort((a, b) => {

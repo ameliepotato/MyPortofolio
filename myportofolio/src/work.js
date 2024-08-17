@@ -20,12 +20,8 @@ function Work(props) {
             </Button>
             <Dialog onClose={handleClose} open={open} id={"workDialog" + props.id}>
                 <DialogTitle>{props.name} details</DialogTitle>
-
-                <Button onClick={() => {
-                }}>Previous</Button>
-                <Button onClick={() => {
-                }}>Next</Button>
-
+                <Button onClick={() => { }}>Previous</Button>
+                <Button onClick={() => { }}>Next</Button>
                 <Button variant="outlined" onClick={handleClose}>
                     Close
                 </Button>

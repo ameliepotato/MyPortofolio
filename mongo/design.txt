@@ -1,0 +1,33 @@
+album:
+id
+name
+public
+desc
+user
+
+picture:
+id
+name
+album
+desc
+
+
+user:
+id
+username
+password
+name
+
+
+
+login->
+
+create album -> user, album name, public, desc -> id
+update album -> id, name, public, desc -> bool
+delete album -> id -> bool
+
+upload picture -> album, picture, name, desc -> id 
+update picture -> id, name, desc
+move picture -> id new album -> bool 
+get picture -> id -> picture
+delete picture -> id -> bool
