@@ -11,8 +11,8 @@ services:
             - 27017:27017
         expose:
             - "27017"
-    myportofolio:
-        container_name: myportofolio
+    webapp:
+        container_name: webapp
         build:
             context: ./
             dockerfile: ./myportofolio/Dockerfile
