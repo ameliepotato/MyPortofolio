@@ -19,8 +19,10 @@ services:
         depends_on: 
             - picturesdb
         ports:
-            - 3000:3000   
+            - 3000:3000 
+            - 500:500  
         expose:
-            - "3000" 
+            - "3000"
+            - "500" 
         environment:
             - DB_CONNECTIONSTRING=mongodb://admin:Example@picturesdb:27017/

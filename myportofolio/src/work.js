@@ -22,9 +22,7 @@ function Work(props) {
                 <DialogTitle>{props.name} details</DialogTitle>
                 <Button onClick={() => { }}>Previous</Button>
                 <Button onClick={() => { }}>Next</Button>
-                <Button variant="outlined" onClick={handleClose}>
-                    Close
-                </Button>
+                <Button variant="outlined" onClick={handleClose}> Close </Button>
             </Dialog>
         </div>
     );
