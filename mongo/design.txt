@@ -21,10 +21,13 @@ name
 
 
 login->
+new user ->
+delete user -> 
 
 create album -> user, album name, public, desc -> id
 update album -> id, name, public, desc -> bool
 delete album -> id -> bool
+get album -> id -> album
 
 upload picture -> album, picture, name, desc -> id 
 update picture -> id, name, desc

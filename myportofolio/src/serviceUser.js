@@ -1,30 +1,35 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
 const port = 5000;
 
+// Enable CORS for all routes
+app.use(cors());
 // Middleware to parse JSON
 app.use(bodyParser.json());
 
 // Connect to MongoDB container
-mongoose.connect('mongodb://admin:Example@localhost:27017', {
+mongoose.connect('mongodb://myportofoliouser:myportofoliopwd@localhost:27017/myportofolio', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+  console.log('User Service connected to MongoDB');
+  
 });
 
 // Define a User Schema
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: String
+  password: String,
+  username: String
 });
 
 // Create a User model
@@ -93,5 +98,5 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`User Service running on port ${port}`);
 });

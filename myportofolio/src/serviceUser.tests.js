@@ -7,7 +7,8 @@ const baseURL = 'http://localhost:5000/users';
 const testUser = {
     name: 'John Doe',
     email: 'johndoe@example.com',
-    password: '12345'
+    password: '12345',
+    username: 'hammer'
 };
 
 // Function to create a new user
