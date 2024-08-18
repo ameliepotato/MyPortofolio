@@ -25,4 +25,4 @@ services:
             - "3000"
             - "500" 
         environment:
-            - DB_CONNECTIONSTRING=mongodb://admin:Example@picturesdb:27017/
+            - DB_CONNECTIONSTRING=mongodb://myportofoliouser:myportofoliopwd@picturesdb:27017/

@@ -14,3 +14,11 @@ use(database);
 db.createCollection(pictureCollection);
 db.createCollection(albumCollection);
 db.createCollection(userCollection);
+
+db.createUser(
+    {
+      user: database + "user",
+      pwd:  database + "pwd",  
+      roles: [ { role: "readWrite", db: database } ]
+    }
+  )
