@@ -3,23 +3,11 @@ import { useState } from "react";
 import { Button } from '@mui/material';
 import Login from './login';
 import Works from './works';
-import axios from 'axios';
+import appUserLogic from './appUserLogic';
 
 function App() {
-  const urlUserService = 'http://localhost:5003/users';
   const [hideLogin, setHideLogin] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
-
-  async function createUser(newUser) {
-    try {      
-      const response = await axios.post(urlUserService, newUser);
-      console.log('User Created:', response.data);
-      return response.data._id; // Return the user ID for further operations
-    } catch (error) {
-      console.error('Error creating user:', error.response?.data || error.message);
-    }
-  }
-
   return (
     <div className="App">
       <header className="App-header">
@@ -40,18 +28,18 @@ function App() {
             setLoggedInUser(newUser);
             document.getElementById("greeting").innerHTML = "Your works, " + newUser.name + "!";
             setHideLogin(true);
-            createUser(newUser);
+            appUserLogic.loginUser(newUser);
           }}>Login</Button>
           <div>
             <Button variant='text' onClick={() => {
               setHideLogin(true);
+              setLoggedInUser(null);
               document.getElementById("greeting").innerHTML = "Public works"
             }}>Stay anonymous</Button>
           </div>
         </div>
       }
       {
-        (hideLogin) && 
         <div id="works">
           <Works user={loggedInUser} ></Works>
         </div>

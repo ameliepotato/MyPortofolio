@@ -75,6 +75,7 @@ app.get('/users', async (req, res) => {
 app.get('/users/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+    console.log(user);
     if (!user) {
       return res.status(404).send();
     }
@@ -87,7 +88,8 @@ app.get('/users/:id', async (req, res) => {
 // Read a User by name
 app.get('/users/:username', async (req, res) => {
   try {
-    const user = await User.find(req.params.username);
+    const user = await User.find({"username":req.params.username});
+    console.log(user);
     if (!user) {
       return res.status(404).send();
     }
@@ -102,6 +104,7 @@ app.get('/users/:username', async (req, res) => {
 app.patch('/users/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    console.log(user);
     if (!user) {
       return res.status(404).send();
     }

@@ -51,7 +51,7 @@ function Album(props) {
             }
             {expanded &&
                 <div>
-                    <Gallery viewOnly={props.viewOnly} name={props.name} />
+                    <Gallery user={props.user} name={props.name} />
                     <Button onClick={() => {
                         setExpanded(false);
                         setRenaming(false);

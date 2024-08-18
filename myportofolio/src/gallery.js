@@ -13,9 +13,8 @@ function Gallery(props) {
                         <Work name={photo.name} key={photo.id} id={photo.id}> {photo.name}</Work>
                     );
                 })}
-                {!props.viewOnly &&
-                    <Button onClick={() => {
-                    }}>Add new work</Button>
+                {props.user &&
+                    <Button onClick={() => {}}>Add new work</Button>
                 } </ImageList>
         </div>);
 };

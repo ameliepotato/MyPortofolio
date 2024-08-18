@@ -1,46 +1,16 @@
 import './App.css';
 import { Button } from '@mui/material';
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import Album from './album';
+import appAlbumLogic from './appAlbumLogic';
 
 function Works(props) {
-    const urlAlbumService = 'http://localhost:5001/albums';
     const [albums, setAlbums] = useState([]);
-
-    async function getAlbums() {
-        try {
-            const response = await axios.get(urlAlbumService);
-            console.log('Get all albums:', response.data);
-            return response.data;
-        } catch (error) {
-            console.error('Error getting albums:', error.response?.data || error.message);
-        }
-    }
-
-    async function createAlbum() {
-        try {
-            var newAlbum = {
-                name: 'NewAlbum',
-                publicView: false,
-                desc: 'My new album',
-                pinned: false,
-                user: props.user.username
-            };
-            const response = await axios.post(urlAlbumService, newAlbum);
-            console.log('Album Created:', response.data);
-            var copy = [...albums];
-            copy.push(response.data);
-            setAlbums(copy);
-        } catch (error) {
-            console.error('Error creating album:', error.response?.data || error.message);
-        }
-    }
 
     async function deleteAlbum(albumId) {
         try {
-            const response = await axios.delete(`${urlAlbumService}/${albumId}`);
-            console.log('Album Deleted:', response.data);
+            var albumDeleted  = await appAlbumLogic.deleteAlbum(albumId);
+            console.log('Album Deleted:', albumDeleted);
             var copy = [];
             albums.forEach(a => {
                 if (a._id !== albumId) {
@@ -80,7 +50,7 @@ function Works(props) {
 
     useEffect(() => {
         const fetchAlbums = async () => {
-            const albumsData = await getAlbums();
+            const albumsData = await appAlbumLogic.getAlbums();
             if (albumsData) {
                 setAlbums(albumsData);
             }
@@ -91,17 +61,34 @@ function Works(props) {
 
     return (
         <div id="albums">
-            {albums.map((album) => {
+            {
+            albums.map((album) => {
                 if (album.publicView || (props.user && props.user.username === album.user))
                     return (
                         <Album name={album.name} key={album._id}
                             id={album._id} expanded={false} pinned={album.pinned}
                             deleteFn={deleteAlbum} pinFn={onPin} publicView={album.publicView} desc={album.desc} user={album.user}></Album>
                     );
+                return "";
             })}
             {props.user &&
                 <Button onClick={() => {
-                    createAlbum();
+                    try {
+                        var newAlbum = {
+                            name: 'NewAlbum',
+                            publicView: false,
+                            desc: 'My new album',
+                            pinned: false,
+                            user: props.user.username
+                        };
+                        newAlbum._id = appAlbumLogic.createAlbum(newAlbum);
+                        console.log('Album Created:', newAlbum);
+                        var copy = [...albums];
+                        copy.push(newAlbum);
+                        setAlbums(copy);
+                    } catch (error) {
+                        console.error('Error creating album:', error.response?.data || error.message);
+                    }
                 }}>Add new album</Button>
             }
         </div>

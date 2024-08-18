@@ -56,7 +56,6 @@ app.get('/pictures', async (req, res) => {
   }
 });
 
-// Read a User by ID
 app.get('/pictures/:id', async (req, res) => {
   try {
     const picture = await Picture.findById(req.params.id);
