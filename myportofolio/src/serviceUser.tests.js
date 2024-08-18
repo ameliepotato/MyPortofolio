@@ -64,9 +64,9 @@ async function deleteUser(userId) {
 }
 
 // Main function to test the CRUD operations
-async function testCRUDOperations() {
+async function testUserCRUDOperations() {
     const userId = await createUser();
-    
+
     if (userId) {
         await getAllUsers();
         await getUserById(userId);
@@ -76,5 +76,5 @@ async function testCRUDOperations() {
     }
 }
 
-testCRUDOperations();  
+testUserCRUDOperations();
 

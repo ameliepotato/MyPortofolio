@@ -6,7 +6,7 @@ import Work from './work';
 function Gallery(props) {
     const [photos, setPhotos] = useState([{ id: "1", name: "one" }, { id: "2", name: "two" }, { id: "3", name: "three" }, { id: "4", name: "four" }, { id: "5", name: "five" }]);
     return (
-        <div>
+        <div id={props.name}>
             <ImageList cols={3}>
                 {photos.map((photo) => {
                     return (

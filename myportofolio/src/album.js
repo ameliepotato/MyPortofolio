@@ -8,25 +8,30 @@ function Album(props) {
     const [renaming, setRenaming] = useState(false);
     const [pinned, setPinned] = useState(props.pinned ?? false);
     const [publicView, setPublicView] = useState(props.publicView);
-    
+
     return (
         <div id={props.id} className={expanded ? 'Div-Border' : ''}>
             {(!expanded) &&
                 <div>
                     <Button onClick={() => {
                         setExpanded(true);
-                    }}>  {props.name} { !props.viewOnly && pinned ? "- Pinned" : ""}</Button>
+                    }}>  {props.name} {!props.viewOnly && pinned ? "- Pinned" : ""}</Button>
                 </div>
             }
             {
                 expanded && !renaming &&
 
-                <h1> {props.name}      </h1>
+                <h1> {props.name}  by {props.user}    </h1>
 
             }
+
             {
                 expanded && (!props.viewOnly) && !renaming &&
                 <div>
+                    <p>
+                        {props.desc}
+                    </p>
+
                     <Button onClick={() => {
                         props.pinFn(props.id, !pinned);
                         setPinned(!pinned);
@@ -46,7 +51,7 @@ function Album(props) {
             }
             {expanded &&
                 <div>
-                    <Gallery viewOnly={props.viewOnly}/>
+                    <Gallery viewOnly={props.viewOnly} name={props.name} />
                     <Button onClick={() => {
                         setExpanded(false);
                         setRenaming(false);
