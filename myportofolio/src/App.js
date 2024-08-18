@@ -5,24 +5,15 @@ import Login from './login';
 import Works from './works';
 import axios from 'axios';
 
-const urlUserService = 'http://localhost:5000/users';
-
 function App() {
+  const urlUserService = 'http://localhost:5003/users';
   const [hideLogin, setHideLogin] = useState(false);
-  const [publicView, setPublicView] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
-  async function createUser() {
-    try {
-      var newUser = {
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value,
-        name: "NewUser",
-        email: "new@user.com"
-      };
+  async function createUser(newUser) {
+    try {      
       const response = await axios.post(urlUserService, newUser);
       console.log('User Created:', response.data);
-      document.getElementById("greeting").innerHTML = "Your works, " + document.getElementById("username").value + "!";
-      setHideLogin(true);
       return response.data._id; // Return the user ID for further operations
     } catch (error) {
       console.error('Error creating user:', error.response?.data || error.message);
@@ -40,11 +31,19 @@ function App() {
         <div id="login">
           <Login></Login>
           <Button onClick={() => {
-            createUser();
+            var newUser = {
+              username: document.getElementById("username").value,
+              password: document.getElementById("password").value,
+              name: document.getElementById("username").value,
+              email: document.getElementById("username").value + "@gmail.com"
+            };
+            setLoggedInUser(newUser);
+            document.getElementById("greeting").innerHTML = "Your works, " + newUser.name + "!";
+            setHideLogin(true);
+            createUser(newUser);
           }}>Login</Button>
           <div>
             <Button variant='text' onClick={() => {
-              setPublicView(true);
               setHideLogin(true);
               document.getElementById("greeting").innerHTML = "Public works"
             }}>Stay anonymous</Button>
@@ -52,9 +51,9 @@ function App() {
         </div>
       }
       {
-        (hideLogin) &&
+        (hideLogin) && 
         <div id="works">
-          <Works publicView={publicView}></Works>
+          <Works user={loggedInUser} ></Works>
         </div>
       }
     </div>

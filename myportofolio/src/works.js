@@ -1,14 +1,12 @@
 import './App.css';
-import { Button, getAlertTitleUtilityClass } from '@mui/material';
+import { Button } from '@mui/material';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import Album from './album';
 
 function Works(props) {
     const urlAlbumService = 'http://localhost:5001/albums';
-
     const [albums, setAlbums] = useState([]);
-
 
     async function getAlbums() {
         try {
@@ -20,7 +18,6 @@ function Works(props) {
         }
     }
 
-
     async function createAlbum() {
         try {
             var newAlbum = {
@@ -28,7 +25,7 @@ function Works(props) {
                 publicView: false,
                 desc: 'My new album',
                 pinned: false,
-                user: props.user
+                user: props.user.username
             };
             const response = await axios.post(urlAlbumService, newAlbum);
             console.log('Album Created:', response.data);
@@ -95,15 +92,14 @@ function Works(props) {
     return (
         <div id="albums">
             {albums.map((album) => {
-                if (album.publicView || props.publicView === false)
+                if (album.publicView || (props.user && props.user.username === album.user))
                     return (
                         <Album name={album.name} key={album._id}
                             id={album._id} expanded={false} pinned={album.pinned}
-                            deleteFn={deleteAlbum} pinFn={onPin} publicView={album.publicView} viewOnly={props.publicView} desc={album.desc} user={album.user}></Album>
+                            deleteFn={deleteAlbum} pinFn={onPin} publicView={album.publicView} desc={album.desc} user={album.user}></Album>
                     );
-                return <div></div>;
             })}
-            {!props.publicView &&
+            {props.user &&
                 <Button onClick={() => {
                     createAlbum();
                 }}>Add new album</Button>

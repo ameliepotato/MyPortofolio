@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 5000;
+const port = 5003;
 
 // Enable CORS for all routes
 app.use(cors());
@@ -26,10 +26,23 @@ db.once('open', () => {
 
 // Define a User Schema
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
-  username: String
+  name: {
+    type: String
+  },
+  email: {
+    type: String,
+    required: [true,"email required!"],
+    unique: true
+ },
+  password:{
+    type: String,
+    required: [true,"password required!"]
+ },
+  username: {
+    type: String,
+    required: [true,"username required!"],
+    unique: true
+ },
 });
 
 // Create a User model
@@ -70,6 +83,20 @@ app.get('/users/:id', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// Read a User by name
+app.get('/users/:username', async (req, res) => {
+  try {
+    const user = await User.find(req.params.username);
+    if (!user) {
+      return res.status(404).send();
+    }
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 
 // Update a User by ID
 app.patch('/users/:id', async (req, res) => {
