@@ -7,7 +7,7 @@ const port = 5000;
 app.use(express.json());
 
 // Connect to MongoDB container
-mongoose.connect('mongodb://admin:Example@localhost:27017', {
+mongoose.connect('mongodb://admin:Example@picturesdb:27017', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -24,5 +24,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on http://picturesdb:${port}`);
 });
