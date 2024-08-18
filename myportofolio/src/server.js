@@ -1,13 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
 const app = express();
 const port = 5000;
 
 // Middleware to parse JSON
-app.use(express.json());
+app.use(bodyParser.json());
 
 // Connect to MongoDB container
-mongoose.connect('mongodb://admin:Example@picturesdb:27017', {
+mongoose.connect('mongodb://admin:Example@localhost:27017', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -18,9 +20,76 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-// Example route
-app.get('/', (req, res) => {
-  res.send('Hello from Express!');
+// Define a User Schema
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String
+});
+
+// Create a User model
+const User = mongoose.model('User', userSchema);
+
+// CRUD Operations
+
+// Create a new User
+app.post('/users', async (req, res) => {
+  try {
+      const user = new User(req.body);
+      await user.save();
+      res.status(201).send(user);
+  } catch (error) {
+      res.status(400).send(error);
+  }
+});
+
+// Read all Users
+app.get('/users', async (req, res) => {
+  try {
+      const users = await User.find({});
+      res.status(200).send(users);
+  } catch (error) {
+      res.status(500).send(error);
+  }
+});
+
+// Read a User by ID
+app.get('/users/:id', async (req, res) => {
+  try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+          return res.status(404).send();
+      }
+      res.status(200).send(user);
+  } catch (error) {
+      res.status(500).send(error);
+  }
+});
+
+// Update a User by ID
+app.patch('/users/:id', async (req, res) => {
+  try {
+      const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+      if (!user) {
+          return res.status(404).send();
+      }
+      res.status(200).send(user);
+  } catch (error) {
+      res.status(400).send(error);
+  }
+});
+
+// Delete a User by ID
+app.delete('/users/:id', async (req, res) => {
+  try {
+      const user = await User.findByIdAndDelete(req.params.id);
+      if (!user) {
+          return res.status(404).send();
+      }
+      res.status(200).send(user);
+  } catch (error) {
+      res.status(500).send(error);
+  }
 });
 
 app.listen(port, () => {
