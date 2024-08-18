@@ -20,9 +20,9 @@ services:
             - picturesdb
         ports:
             - 3000:3000 
-            - 500:500  
+            - 5000:5000
         expose:
             - "3000"
-            - "500" 
+            - "5000" 
         environment:
             - DB_CONNECTIONSTRING=mongodb://myportofoliouser:myportofoliopwd@picturesdb:27017/

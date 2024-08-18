@@ -7,7 +7,7 @@ const port = 5000;
 app.use(express.json());
 
 // Connect to MongoDB container
-mongoose.connect('mongodb://localhost:27017/picturesdb', {
+mongoose.connect('mongodb://admin:Example@localhost:27017', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

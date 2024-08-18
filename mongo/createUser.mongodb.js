@@ -1,3 +1,6 @@
+const database = 'myportofolio';
+// Create a new database.
+use(database);
 db.createUser(
     {
       user: "myportofoliouser",
