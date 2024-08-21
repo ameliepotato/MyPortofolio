@@ -3,6 +3,7 @@ import './App.css';
 import './album.css';
 import { useState } from "react";
 import Gallery from './gallery';
+
 function Album(props) {
     const [expanded, setExpanded] = useState(props.expanded);
     const [renaming, setRenaming] = useState(false);

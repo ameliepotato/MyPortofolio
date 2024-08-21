@@ -1,7 +1,7 @@
 import axios from 'axios';
 const urlUserService='http://localhost:5003/users';
 
-const appUserLogic = {
+const appUser = {
 createUser: async function(newUser) {
     try {      
       const response = await axios.post(urlUserService, newUser);
@@ -37,4 +37,4 @@ loginUser: async function(user) {
   }
 };
 
-export default appUserLogic;
+export default appUser;

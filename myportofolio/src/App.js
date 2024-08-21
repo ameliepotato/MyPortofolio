@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from '@mui/material';
 import Login from './login';
 import Works from './works';
-import appUserLogic from './appUserLogic';
+import appUser from './appUser';
 
 function App() {
   const [hideLogin, setHideLogin] = useState(false);
@@ -28,7 +28,7 @@ function App() {
             setLoggedInUser(newUser);
             document.getElementById("greeting").innerHTML = "Your works, " + newUser.name + "!";
             setHideLogin(true);
-            appUserLogic.loginUser(newUser);
+            appUser.loginUser(newUser);
           }}>Login</Button>
           <div>
             <Button variant='text' onClick={() => {

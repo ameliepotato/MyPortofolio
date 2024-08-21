@@ -2,14 +2,14 @@ import './App.css';
 import { Button } from '@mui/material';
 import { useState, useEffect } from "react";
 import Album from './album';
-import appAlbumLogic from './appAlbumLogic';
+import appAlbum from './appAlbum';
 
 function Works(props) {
     const [albums, setAlbums] = useState([]);
 
     async function deleteAlbum(albumId) {
         try {
-            var albumDeleted  = await appAlbumLogic.deleteAlbum(albumId);
+            var albumDeleted  = await appAlbum.deleteAlbum(albumId);
             console.log('Album Deleted:', albumDeleted);
             var copy = [];
             albums.forEach(a => {
@@ -50,7 +50,7 @@ function Works(props) {
 
     useEffect(() => {
         const fetchAlbums = async () => {
-            const albumsData = await appAlbumLogic.getAlbums();
+            const albumsData = await appAlbum.getAlbums();
             if (albumsData) {
                 setAlbums(albumsData);
             }
@@ -81,7 +81,7 @@ function Works(props) {
                             pinned: false,
                             user: props.user.username
                         };
-                        newAlbum._id = appAlbumLogic.createAlbum(newAlbum);
+                        newAlbum._id = appAlbum.createAlbum(newAlbum);
                         console.log('Album Created:', newAlbum);
                         var copy = [...albums];
                         copy.push(newAlbum);

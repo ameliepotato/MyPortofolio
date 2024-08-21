@@ -1,8 +1,8 @@
 import axios from 'axios';
-const urlAlbumService = 'http://localhost:5001/albums';
+const urlAlbumService = 'http://localhost:5001/album';
 const urlPictureService = 'http://localhost:5002/pictures';
 
-const appAlbumLogic = {
+const appAlbum = {
   createAlbum: async function (album) {
     try {
       const response = await axios.post(urlAlbumService, album);
@@ -23,7 +23,7 @@ const appAlbumLogic = {
   },
   getAlbums: async function () {
     try {
-      const albumsFound = await axios.get(urlAlbumService);
+      const albumsFound = await axios.get(urlAlbumService+'s');
       console.log('Albums found:', albumsFound.data);
       return albumsFound.data;
     } catch (error) {
@@ -48,4 +48,4 @@ const appAlbumLogic = {
   }
 };
 
-export default appAlbumLogic;
+export default appAlbum;
