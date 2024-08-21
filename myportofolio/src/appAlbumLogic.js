@@ -1,5 +1,6 @@
 import axios from 'axios';
 const urlAlbumService = 'http://localhost:5001/albums';
+const urlPictureService = 'http://localhost:5002/pictures';
 
 const appAlbumLogic = {
   createAlbum: async function (album) {
@@ -35,6 +36,14 @@ const appAlbumLogic = {
       return albumFound;
     } catch (error) {
       console.error('Error finding album:', error.response?.data || error.message);
+    }
+  },
+  getGallery: async function name(albumId) {
+    try {
+      const gallery = await axios.get(`${urlPictureService}/${albumId}`);
+      return gallery;
+    } catch (error) {
+      console.error('Error finding gallery:', error.response?.data || error.message);
     }
   }
 };

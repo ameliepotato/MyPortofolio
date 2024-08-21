@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // Base URL of your API
-const baseURL = 'http://localhost:5001/albums';
+const baseURL = 'http://localhost:5001/album';
 
 // Test Data
 const testAlbum = {
@@ -9,7 +9,7 @@ const testAlbum = {
     desc: 'my album',
     user: 'userAlbum',
     publicView: true
-};
+}
 
 async function createAlbum() {
     try {
@@ -23,7 +23,7 @@ async function createAlbum() {
 
 async function getAllAlbums() {
     try {
-        const response = await axios.get(baseURL);
+        const response = await axios.get(baseURL+'s');
         console.log('All Albums:', response.data);
     } catch (error) {
         console.error('Error fetching albums:', error.response?.data || error.message);
@@ -36,6 +36,15 @@ async function getAlbumById(albumId) {
         console.log('Album Details:', response.data);
     } catch (error) {
         console.error('Error fetching album by ID:', error.response?.data || error.message);
+    }
+}
+
+async function getAlbumsByUser(user) {
+    try {
+        const response = await axios.get(`${baseURL}s/${user}`);
+        console.log('Albums:', response.data);
+    } catch (error) {
+        console.error('Error fetching albums:', error.response?.data || error.message);
     }
 }
 
@@ -66,6 +75,7 @@ async function testAlbumCRUDOperations() {
     if (albumId) {
         await getAllAlbums();
         await getAlbumById(albumId);
+        await getAlbumsByUser(testAlbum.user);
         await updateAlbum(albumId);
         await deleteAlbum(albumId);
         await getAllAlbums(); // Verify the album is deleted

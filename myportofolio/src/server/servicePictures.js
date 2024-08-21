@@ -29,7 +29,8 @@ const pictureSchema = new mongoose.Schema({
   name: String,
   desc: String,
   album: String,
-  photo: { type: Buffer }
+  photo: { type: Buffer },
+  user: String
 });
 
 // Create a User model
@@ -37,7 +38,7 @@ const Picture = mongoose.model('Picture', pictureSchema);
 
 // CRUD Operations
 
-app.post('/pictures', async (req, res) => {
+app.post('/picture', async (req, res) => {
   try {
     const picture = new Picture(req.body);
     await picture.save();
@@ -56,7 +57,7 @@ app.get('/pictures', async (req, res) => {
   }
 });
 
-app.get('/pictures/:id', async (req, res) => {
+app.get('/picture/:id', async (req, res) => {
   try {
     const picture = await Picture.findById(req.params.id);
     if (!picture) {
@@ -68,7 +69,19 @@ app.get('/pictures/:id', async (req, res) => {
   }
 });
 
-app.patch('/pictures/:id', async (req, res) => {
+app.get('/pictures/:albumid', async (req, res) => {
+  try {
+    const picture = await Picture.find({ "album": req.params.id });
+    if (!picture) {
+      return res.status(404).send();
+    }
+    res.status(200).send(picture);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.patch('/picture/:id', async (req, res) => {
   try {
     const picture = await Picture.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!picture) {
@@ -80,7 +93,7 @@ app.patch('/pictures/:id', async (req, res) => {
   }
 });
 
-app.delete('/pictures/:id', async (req, res) => {
+app.delete('/picture/:id', async (req, res) => {
   try {
     const picture = await Picture.findByIdAndDelete(req.params.id);
     if (!picture) {

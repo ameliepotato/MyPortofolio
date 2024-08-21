@@ -38,7 +38,7 @@ const Album = mongoose.model('Album', albumSchema);
 
 // CRUD Operations
 
-app.post('/albums', async (req, res) => {
+app.post('/album', async (req, res) => {
   try {
     const album = new Album(req.body);
     await album.save();
@@ -57,8 +57,7 @@ app.get('/albums', async (req, res) => {
   }
 });
 
-// Read a User by ID
-app.get('/albums/:id', async (req, res) => {
+app.get('/album/:id', async (req, res) => {
   try {
     const album = await Album.findById(req.params.id);
     if (!album) {
@@ -70,7 +69,19 @@ app.get('/albums/:id', async (req, res) => {
   }
 });
 
-app.patch('/albums/:id', async (req, res) => {
+app.get('/albums/:user', async (req, res) => {
+  try {
+    const album = await Album.find({ "user": req.params.user });
+    if (!album) {
+      return res.status(404).send();
+    }
+    res.status(200).send(album);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.patch('/album/:id', async (req, res) => {
   try {
     const album = await Album.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!album) {
@@ -82,7 +93,7 @@ app.patch('/albums/:id', async (req, res) => {
   }
 });
 
-app.delete('/albums/:id', async (req, res) => {
+app.delete('/album/:id', async (req, res) => {
   try {
     const album = await Album.findByIdAndDelete(req.params.id);
     if (!album) {
