@@ -70,15 +70,6 @@ async function getGallery(albumId) {
     }
 }
 
-async function getGalleries(userId) {
-    try {
-        const response = await axios.get(`${baseURLUserGallery}s/${userId}`);
-        console.log('Retrieving galleries:', response.data);
-    } catch (error) {
-        console.error('Error retrieving galleries:', error.response?.data || error.message);
-    }
-}
-
 // Main function to test the CRUD operations
 async function testPictureCRUDOperations() {
     const photoId = await addPicture();

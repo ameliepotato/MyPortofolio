@@ -9,7 +9,7 @@ function Works(props) {
 
     async function deleteAlbum(albumId) {
         try {
-            var albumDeleted  = await appAlbum.deleteAlbum(albumId);
+            var albumDeleted = await appAlbum.deleteAlbum(albumId);
             console.log('Album Deleted:', albumDeleted);
             var copy = [];
             albums.forEach(a => {
@@ -62,15 +62,15 @@ function Works(props) {
     return (
         <div id="albums">
             {
-            albums.map((album) => {
-                if (album.publicView || (props.user && props.user.username === album.user))
-                    return (
-                        <Album name={album.name} key={album._id}
-                            id={album._id} expanded={false} pinned={album.pinned}
-                            deleteFn={deleteAlbum} pinFn={onPin} publicView={album.publicView} desc={album.desc} user={album.user}></Album>
-                    );
-                return "";
-            })}
+                albums.map((album) => {
+                    if (album.publicView || (props.user && props.user._id === album.user))
+                        return (
+                            <Album name={album.name} key={album._id}
+                                id={album._id} expanded={false} pinned={album.pinned}
+                                deleteFn={deleteAlbum} pinFn={onPin} publicView={album.publicView} desc={album.desc} user={props.user}></Album>
+                        );
+                    return "";
+                })}
             {props.user &&
                 <Button onClick={() => {
                     try {
@@ -79,7 +79,7 @@ function Works(props) {
                             publicView: false,
                             desc: 'My new album',
                             pinned: false,
-                            user: props.user.username
+                            user: props.user._id
                         };
                         newAlbum._id = appAlbum.createAlbum(newAlbum);
                         console.log('Album Created:', newAlbum);

@@ -29,7 +29,7 @@ const pictureSchema = new mongoose.Schema({
   name: String,
   desc: String,
   album: String,
-  photo: { type: Buffer },
+  photo: binData,
   user: String
 });
 
@@ -71,7 +71,7 @@ app.get('/picture/:id', async (req, res) => {
 
 app.get('/pictures/:albumid', async (req, res) => {
   try {
-    const picture = await Picture.find({ "album": req.params.id });
+    const picture = await Picture.find({ "album": req.params.albumid });
     if (!picture) {
       return res.status(404).send();
     }

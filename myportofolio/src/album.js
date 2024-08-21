@@ -22,7 +22,7 @@ function Album(props) {
             {
                 expanded && !renaming &&
 
-                <h1> {props.name}  by {props.user}    </h1>
+                <h1> {props.name}  by {props.user.name}    </h1>
 
             }
 
@@ -52,7 +52,7 @@ function Album(props) {
             }
             {expanded &&
                 <div>
-                    <Gallery user={props.user} name={props.name} />
+                    <Gallery user={props.user} name={props.name} albumid={props.id} />
                     <Button onClick={() => {
                         setExpanded(false);
                         setRenaming(false);
