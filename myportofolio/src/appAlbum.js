@@ -41,7 +41,7 @@ const appAlbum = {
   getGallery: async function name(albumId) {
     try {
       const gallery = await axios.get(`${urlPictureService}/${albumId}`);
-      return gallery;
+      return gallery.data;
     } catch (error) {
       console.error('Error finding gallery:', error.response?.data || error.message);
     }

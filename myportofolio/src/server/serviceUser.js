@@ -31,18 +31,19 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true,"email required!"],
+    required: [true, "email required!"],
     unique: true
- },
-  password:{
+  },
+  password: {
     type: String,
-    required: [true,"password required!"]
- },
+    required: [true, "password required!"]
+  },
   username: {
     type: String,
-    required: [true,"username required!"],
+    required: [true, "username required!"],
     unique: true
- },
+  },
+  dateCreated: { type: Date, default: Date.now }
 });
 
 // Create a User model
@@ -88,7 +89,7 @@ app.get('/users/:id', async (req, res) => {
 // Read a User by name
 app.get('/users/:username', async (req, res) => {
   try {
-    const user = await User.find({"username":req.params.username});
+    const user = await User.find({ "username": req.params.username });
     console.log(user);
     if (!user) {
       return res.status(404).send();

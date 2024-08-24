@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { Binary } = require('mongodb')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
@@ -29,18 +30,16 @@ const pictureSchema = new mongoose.Schema({
   name: String,
   desc: String,
   album: String,
-  photo: binData,
-  user: String
+  dateAdded: { type: Date, default: Date.now }
 });
 
 // Create a User model
 const Picture = mongoose.model('Picture', pictureSchema);
 
 // CRUD Operations
-
 app.post('/picture', async (req, res) => {
   try {
-    const picture = new Picture(req.body);
+    const picture = new Picture({name: req.body.name, desc: req.body.desc, album: req.body.album});
     await picture.save();
     res.status(201).send(picture);
   } catch (error) {

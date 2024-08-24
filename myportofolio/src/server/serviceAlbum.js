@@ -30,7 +30,8 @@ const albumSchema = new mongoose.Schema({
   desc: String,
   publicView: Boolean,
   user: String,
-  pinned: Boolean
+  pinned: Boolean,
+  dateCreated: { type: Date, default: Date.now }
 });
 
 // Create a User model

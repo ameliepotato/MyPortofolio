@@ -39,7 +39,7 @@ function App() {
           </div>
         </div>
       }
-      {
+      { hideLogin &&
         <div id="works">
           <Works user={loggedInUser} ></Works>
         </div>
