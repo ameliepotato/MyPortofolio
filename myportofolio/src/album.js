@@ -44,7 +44,7 @@ function Album(props) {
             }
 
             {
-                expanded && 
+                expanded && props.userId &&
                 <div>
                     <p>
                         {props.album.desc}
@@ -66,7 +66,7 @@ function Album(props) {
             }
             {expanded &&
                 <div>
-                    <Gallery name={props.album.name} albumId={props.album.id}/>
+                    <Gallery name={props.album.name} albumId={props.album.id} user={props.userId}/>
                     <Button onClick={() => {
                         setExpanded(false);
                     }}> Close </Button>
