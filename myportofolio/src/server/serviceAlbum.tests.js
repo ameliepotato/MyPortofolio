@@ -7,7 +7,7 @@ const baseURL = 'http://localhost:5001/album';
 const testAlbum = {
     name: 'Album',
     desc: 'my album',
-    user: 'userAlbum',
+    user: '66ca2d49a8026bc705d22800',
     publicView: true
 }
 

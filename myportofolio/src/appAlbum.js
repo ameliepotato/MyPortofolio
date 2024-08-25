@@ -16,16 +16,22 @@ const appAlbum = {
     try {
       const albumFound = await axios.get(`${urlAlbumService}/${albumId}`);
       console.log('Album found:', albumFound);
-      return albumFound;
+      return { name: albumFound.name, id: albumId, desc: albumFound.desc, user: albumFound.user, pinned: albumFound.pinned, publicView: albumFound.publicView};
     } catch (error) {
       console.error('Error finding album:', error.response?.data || error.message);
     }
   },
-  getAlbums: async function () {
+  getAlbums: async function (user) {
     try {
       const albumsFound = await axios.get(urlAlbumService+'s');
       console.log('Albums found:', albumsFound.data);
-      return albumsFound.data;
+      var albums = [];
+      albumsFound.data.forEach(a => {
+        if(!user || a.user === user){
+        albums.push({ name: a.name, desc: a.desc, id: a._id, user: a.user, pinned: a.pinned, publicView: a.publicView });
+      }});
+      console.log('Sending albums:', albums);
+      return albums;
     } catch (error) {
       console.error('Error finding album:', error.response?.data || error.message);
     }
@@ -41,7 +47,11 @@ const appAlbum = {
   getGallery: async function name(albumId) {
     try {
       const gallery = await axios.get(`${urlPictureService}/${albumId}`);
-      return gallery.data;
+      var galleryPhotos = [];
+      gallery.data.forEach(a => {
+        galleryPhotos.push({ name: a.name, desc: a.desc, id: a._id, album: albumId });
+      });
+      return galleryPhotos;
     } catch (error) {
       console.error('Error finding gallery:', error.response?.data || error.message);
     }

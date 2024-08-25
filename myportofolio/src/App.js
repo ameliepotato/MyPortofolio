@@ -8,6 +8,7 @@ import appUser from './appUser';
 function App() {
   const [hideLogin, setHideLogin] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,30 +19,33 @@ function App() {
       {!hideLogin &&
         <div id="login">
           <Login></Login>
-          <Button onClick={() => {
+          <Button onClick={(e) => {
             var newUser = {
               username: document.getElementById("username").value,
               password: document.getElementById("password").value,
               name: document.getElementById("username").value,
               email: document.getElementById("username").value + "@gmail.com"
             };
-            setLoggedInUser(newUser);
+            newUser.id = appUser.loginUser(newUser, (user)=> {
+              setLoggedInUser(user);
+            });           
             document.getElementById("greeting").innerHTML = "Your works, " + newUser.name + "!";
+            e.preventDefault();
             setHideLogin(true);
-            appUser.loginUser(newUser);
           }}>Login</Button>
           <div>
-            <Button variant='text' onClick={() => {
-              setHideLogin(true);
+            <Button variant='text' onClick={(e) => {             
               setLoggedInUser(null);
               document.getElementById("greeting").innerHTML = "Public works"
+              e.preventDefault();
+              setHideLogin(true);
             }}>Stay anonymous</Button>
           </div>
         </div>
       }
       { hideLogin &&
         <div id="works">
-          <Works user={loggedInUser} ></Works>
+          <Works userId={loggedInUser?.id}></Works>
         </div>
       }
     </div>

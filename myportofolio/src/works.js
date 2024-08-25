@@ -13,7 +13,7 @@ function Works(props) {
             console.log('Album Deleted:', albumDeleted);
             var copy = [];
             albums.forEach(a => {
-                if (a._id !== albumId) {
+                if (a.id !== albumId) {
                     copy.push(a);
                 }
             });
@@ -26,14 +26,14 @@ function Works(props) {
     function onPin(id, pinned) {
         let copy = [...albums];
         copy.sort((a, b) => {
-            if (a._id === id) {
+            if (a.id === id) {
                 a.pinned = pinned;
             }
-            if (b._id === id) {
+            if (b.id === id) {
                 b.pinned = pinned;
             }
             if (a.pinned === b.pinned) {
-                if (a._id > b._id) {
+                if (a.id > b.id) {
                     return -1;
                 }
                 return 1;
@@ -50,38 +50,36 @@ function Works(props) {
 
     useEffect(() => {
         const fetchAlbums = async () => {
-            const albumsData = await appAlbum.getAlbums();
+            const albumsData = await appAlbum.getAlbums(props.userId);
             if (albumsData) {
                 setAlbums(albumsData);
             }
         };
 
         fetchAlbums();
-    }, []); // Empty dependency array means this effect runs once on mount
+    }, [props]); // Empty dependency array means this effect runs once on mount
 
     return (
         <div id="albums">
             {
                 albums.map((album) => {
-                    if (album.publicView || (props.user && props.user._id === album.user))
+                    if ((album.publicView && !props.userId) || (props.userId === album.user))
                         return (
-                            <Album name={album.name} key={album._id}
-                                id={album._id} expanded={false} pinned={album.pinned}
-                                deleteFn={deleteAlbum} pinFn={onPin} publicView={album.publicView} desc={album.desc} user={props.user}></Album>
+                            <Album key={album.id} expanded={false} deleteFn={deleteAlbum} pinFn={onPin} userId={props.userId} album={album}></Album>
                         );
                     return "";
                 })}
-            {props.user &&
-                <Button onClick={() => {
+            {props.userId &&
+                <Button onClick={async() => {
                     try {
                         var newAlbum = {
                             name: 'NewAlbum',
                             publicView: false,
                             desc: 'My new album',
                             pinned: false,
-                            user: props.user._id
+                            user: props.userId
                         };
-                        newAlbum._id = appAlbum.createAlbum(newAlbum);
+                        newAlbum.id = appAlbum.createAlbum(newAlbum);
                         console.log('Album Created:', newAlbum);
                         var copy = [...albums];
                         copy.push(newAlbum);

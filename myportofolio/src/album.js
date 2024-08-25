@@ -7,34 +7,34 @@ import Gallery from './gallery';
 function Album(props) {
     const [expanded, setExpanded] = useState(props.expanded);
     const [renaming, setRenaming] = useState(false);
-    const [pinned, setPinned] = useState(props.pinned ?? false);
-    const [publicView, setPublicView] = useState(props.publicView);
+    const [pinned, setPinned] = useState(props.album.pinned ?? false);
+    const [publicView, setPublicView] = useState(props.album.publicView);
 
     return (
-        <div id={props.id} className={expanded ? 'Div-Border' : ''}>
+        <div id={'DivAlbum' + props.album.id} className={expanded ? 'Div-Border' : ''}>
             {(!expanded) &&
                 <div>
-                    <Button onClick={() => {
+                    <Button id={"Pin" + props.album.id} onClick={() => {
                         setExpanded(true);
-                    }}>  {props.name} {!props.viewOnly && pinned ? "- Pinned" : ""}</Button>
+                    }}>  {props.album.name} {pinned ? "- Pinned" : ""}</Button>
                 </div>
             }
             {
                 expanded && !renaming &&
 
-                <h1> {props.name}  by {props.user.name}    </h1>
+                <h1> {props.album.name}  by {props.album.user}    </h1>
 
             }
 
             {
-                expanded && (!props.viewOnly) && !renaming &&
+                expanded && props.album.user && !renaming &&
                 <div>
                     <p>
-                        {props.desc}
+                        {props.album.desc}
                     </p>
 
                     <Button onClick={() => {
-                        props.pinFn(props.id, !pinned);
+                        props.pinFn(props.album.id, !pinned);
                         setPinned(!pinned);
                     }}> {pinned ? "Unpin" : "Pin"} </Button>
 
@@ -44,15 +44,15 @@ function Album(props) {
                     <Button onClick={() => {
                         setRenaming(true);
                     }}> Rename</Button>
-                    <Button onClick={() => props.deleteFn(props.id)}> Delete</Button>
+                    <Button onClick={() => props.deleteFn(props.album.id)}> Delete</Button>
                 </div>
             }
             {renaming &&
-                <TextField variant="outlined" label="album name" defaultValue={props.name}> {props.name} </TextField >
+                <TextField variant="outlined" label="album name" defaultValue={props.album.name}> {props.album.name} </TextField >
             }
             {expanded &&
                 <div>
-                    <Gallery user={props.user} name={props.name} albumid={props.id} />
+                    <Gallery user={props.album.user} name={props.album.name} albumId={props.album.id} />
                     <Button onClick={() => {
                         setExpanded(false);
                         setRenaming(false);

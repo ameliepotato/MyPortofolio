@@ -18,33 +18,35 @@ function Gallery(props) {
 
     const uploadPicture = () => {
         try {
-            var p = {  name: picture.name, desc: "desc", album: props.albumid , photo: picture };
-            p._id = appPicture.addPicture(p);
-            console.log('Picture added: ' + p.name);
-            let copy = photos.length > 0 ? [...photos] : [];
-            copy.push(p);
-            setPhotos(copy);
+            var p = {  name: picture.name, desc: "desc", album: props.albumId , photo: picture };
+            appPicture.addPicture(p, (newPic) => {
+                console.log('Picture added: ' + newPic);
+                let copy = photos.length > 0 ? [...photos] : [];
+                copy.push(newPic);
+                setPhotos(copy);
+            });            
             setPicture(null);
         }
         catch (e) {
             console.log('Error: ' + e);
         }
-
     };
 
     useEffect(() => {
         const fetchPictures = async () => {
-            const albumsData = await appAlbum.getGallery(props.albumid);
+            const albumsData = await appAlbum.getGallery(props.albumId);
             if (albumsData) {
                 console.log(albumsData);
                 setPhotos(albumsData);
             }
         };
         fetchPictures();
-    }, [picture]); // Empty dependency array means this effect runs once on mount
+    }, [props.albumid]); // Empty dependency array means this effect runs once on mount
 
     return (
         <div id={props.name}>
+            
+           { props.user && <div>
             <Button component="label" >
                 Add new work
                 <input onChange={handleFileChange}
@@ -55,11 +57,11 @@ function Gallery(props) {
             {picture && <Button onClick={uploadPicture} >
                 Upload {picture.name}
             </Button>}
-
+            </div>}
             {photos.length && <ImageList cols={3}>{
                 photos.map((photo) => {
                     return (
-                        <Work name={photo.name} key={photo._id} id={photo.id}> {photo.name}</Work>
+                        <Work name={photo.name} key={photo._id} id={photo.id} work={photo} > {photo.name} </Work>
                     );
                 })}
 

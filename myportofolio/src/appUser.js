@@ -1,5 +1,5 @@
 import axios from 'axios';
-const urlUserService='http://localhost:5003/users';
+const urlUserService='http://localhost:5003/users/';
 
 const appUser = {
 createUser: async function(newUser) {
@@ -13,24 +13,24 @@ createUser: async function(newUser) {
   },
 findUser: async function(username) {
     try {      
-      const response = await axios.get(urlUserService);
+      const response = await axios.get(urlUserService, {username:username});
       var userFound = null;
-      response.data.forEach(u => { if(u.username === username) userFound = u});
+      response.data.forEach(u => { if(!userFound && u.username === username) userFound = u});
       console.log('User found:', userFound);
-      return userFound; // Return the user ID for further operations
+      return { id: userFound._id, username: userFound.username, name: userFound.name }; 
     } catch (error) {
       console.error('Error creating user:', error.response?.data || error.message);
     }
   },
-loginUser: async function(user) {
+loginUser: async function(user, callback) {
     try {      
       var userFound = await this.findUser(user.username);
       if(userFound === null){
-        this.createUser(user);
-      } else {
-        user = userFound;
+        userFound = await this.createUser(user);
       }
-      console.log(user);
+      console.log('User logged in: ', userFound);
+      callback(userFound);
+      return userFound._id;
     } catch (error) {
       console.error('Error creating user:', error.response?.data || error.message);
     }
