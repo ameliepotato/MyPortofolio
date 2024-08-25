@@ -1,13 +1,31 @@
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import './App.css';
 import './album.css';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Gallery from './gallery';
+import appUser from './appUser';
 
 function Album(props) {
     const [expanded, setExpanded] = useState(props.expanded);
     const [pinned, setPinned] = useState(props.album.pinned ?? false);
     const [publicView, setPublicView] = useState(props.album.publicView);
+    const [userName, setUserName] = useState(null);
+
+   
+    
+    useEffect(() => {
+        const getUserName = async () => {
+            appUser.getUser(props.album.user, (uname) => {
+                if (uname) {
+                    setUserName(uname.name);
+                }
+            });
+            
+        };
+
+        getUserName();
+    }, [props.album.user]); // Empty dependency array means this effect runs once on mount
+
 
     return (
         <div id={'DivAlbum' + props.album.id} className={expanded ? 'Div-Border' : ''}>
@@ -21,7 +39,7 @@ function Album(props) {
             {
                 expanded && 
 
-                <h1> {props.album.name}  by {props.album.user}    </h1>
+                <h1> {props.album.name}  by { userName }    </h1>
 
             }
 
@@ -48,7 +66,7 @@ function Album(props) {
             }
             {expanded &&
                 <div>
-                    <Gallery user={props.album.user} name={props.album.name} albumId={props.album.id} />
+                    <Gallery name={props.album.name} albumId={props.album.id}/>
                     <Button onClick={() => {
                         setExpanded(false);
                     }}> Close </Button>

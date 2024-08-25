@@ -11,6 +11,18 @@ createUser: async function(newUser) {
       console.error('Error creating user:', error.response?.data || error.message);
     }
   },
+getUser: async function name(userId, callback) {
+  try {      
+    const response = await axios.get(urlUserService + userId);
+    console.log('User Found:', response.data);
+    if(callback){
+      callback(response.data);
+    }
+    return {name: response.data.name, username: response.data.username, id: userId}; 
+  } catch (error) {
+    console.error('Could not retrieve user:', error.response?.data || error.message);
+  }
+},
 findUser: async function(username) {
     try {      
       const response = await axios.get(urlUserService, {username:username});
