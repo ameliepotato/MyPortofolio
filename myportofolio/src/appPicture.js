@@ -1,5 +1,5 @@
 import axios from 'axios';
-const urlPictureService = 'http://localhost:5002/picture';
+const urlPictureService = 'http://localhost:5002/picture/';
 
 const appPicture = {
     addPicture: async function (picture, callback) {
@@ -14,6 +14,15 @@ const appPicture = {
             return response.data._id; // Return the picture ID for further operations
         } catch (error) {
             console.error('Error adding picture:', error.response?.data || error.message);
+        }
+    },
+
+    deletePicture: async function (picture) {
+        try {
+            const response = await axios.delete(urlPictureService + picture);
+            console.log('Picture deleted:', response.data);
+        } catch (error) {
+            console.error('Error deleting picture:', error.response?.data || error.message);
         }
     }
 }

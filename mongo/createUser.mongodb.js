@@ -4,7 +4,7 @@ use(database);
 db.createUser(
     {
       user: "myportofoliouser",
-      pwd:  "myportofoliouserpwd",   // or cleartext password
+      pwd:  "myportofoliouserpwd", 
       roles: [ { role: "readWrite", db: "myportofolio" } ]
     }
   )

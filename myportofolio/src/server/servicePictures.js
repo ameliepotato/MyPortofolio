@@ -30,6 +30,7 @@ const pictureSchema = new mongoose.Schema({
   name: String,
   desc: String,
   album: String,
+  photo: Buffer,
   dateAdded: { type: Date, default: Date.now }
 });
 
@@ -39,7 +40,7 @@ const Picture = mongoose.model('Picture', pictureSchema);
 // CRUD Operations
 app.post('/picture', async (req, res) => {
   try {
-    const picture = new Picture({name: req.body.name, desc: req.body.desc, album: req.body.album});
+    const picture = new Picture({name: req.body.name, desc: req.body.desc, album: req.body.album, photo: req.body.album.photo});
     await picture.save();
     res.status(201).send(picture);
   } catch (error) {

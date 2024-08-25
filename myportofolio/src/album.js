@@ -20,9 +20,7 @@ function Album(props) {
                     setUserName(uname.name);
                 }
             });
-            
         };
-
         getUserName();
     }, [props.album.user]); // Empty dependency array means this effect runs once on mount
 

@@ -32,14 +32,16 @@ function Gallery(props) {
         }
     };
 
+    const fetchPictures = async () => {
+        const albumsData = await appAlbum.getGallery(props.albumId);
+        if (albumsData) {
+            console.log('Albums: ', albumsData);
+            setPhotos(albumsData);
+        }
+    };
+    
     useEffect(() => {
-        const fetchPictures = async () => {
-            const albumsData = await appAlbum.getGallery(props.albumId);
-            if (albumsData) {
-                console.log('Albums: ', albumsData);
-                setPhotos(albumsData);
-            }
-        };
+        
         fetchPictures();
     }, [props.albumId]); // Empty dependency array means this effect runs once on mount
 
@@ -61,7 +63,7 @@ function Gallery(props) {
             {photos.length && <ImageList cols={3}>{
                 photos.map((photo) => {
                     return (
-                        <Work key={photo.id} work={photo} > {photo.name} </Work>
+                        <Work key={photo.id} work={photo} refreshFn={fetchPictures}> {photo.name} </Work>
                     );
                 })}
 
