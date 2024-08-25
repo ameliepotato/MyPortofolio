@@ -6,7 +6,6 @@ import Gallery from './gallery';
 
 function Album(props) {
     const [expanded, setExpanded] = useState(props.expanded);
-    const [renaming, setRenaming] = useState(false);
     const [pinned, setPinned] = useState(props.album.pinned ?? false);
     const [publicView, setPublicView] = useState(props.album.publicView);
 
@@ -20,14 +19,14 @@ function Album(props) {
                 </div>
             }
             {
-                expanded && !renaming &&
+                expanded && 
 
                 <h1> {props.album.name}  by {props.album.user}    </h1>
 
             }
 
             {
-                expanded && props.album.user && !renaming &&
+                expanded && 
                 <div>
                     <p>
                         {props.album.desc}
@@ -42,20 +41,16 @@ function Album(props) {
                         setPublicView(!publicView);
                     }}> {publicView ? "Make private" : "Make public"} </Button>
                     <Button onClick={() => {
-                        setRenaming(true);
+                        
                     }}> Rename</Button>
                     <Button onClick={() => props.deleteFn(props.album.id)}> Delete</Button>
                 </div>
-            }
-            {renaming &&
-                <TextField variant="outlined" label="album name" defaultValue={props.album.name}> {props.album.name} </TextField >
             }
             {expanded &&
                 <div>
                     <Gallery user={props.album.user} name={props.album.name} albumId={props.album.id} />
                     <Button onClick={() => {
                         setExpanded(false);
-                        setRenaming(false);
                     }}> Close </Button>
                 </div>
             }

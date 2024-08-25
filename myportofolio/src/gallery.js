@@ -24,8 +24,8 @@ function Gallery(props) {
                 let copy = photos.length > 0 ? [...photos] : [];
                 copy.push(newPic);
                 setPhotos(copy);
+                setPicture(null);
             });            
-            setPicture(null);
         }
         catch (e) {
             console.log('Error: ' + e);
@@ -36,12 +36,12 @@ function Gallery(props) {
         const fetchPictures = async () => {
             const albumsData = await appAlbum.getGallery(props.albumId);
             if (albumsData) {
-                console.log(albumsData);
+                console.log('Albums: ', albumsData);
                 setPhotos(albumsData);
             }
         };
         fetchPictures();
-    }, [props.albumid]); // Empty dependency array means this effect runs once on mount
+    }, [props.albumId]); // Empty dependency array means this effect runs once on mount
 
     return (
         <div id={props.name}>
@@ -61,7 +61,7 @@ function Gallery(props) {
             {photos.length && <ImageList cols={3}>{
                 photos.map((photo) => {
                     return (
-                        <Work name={photo.name} key={photo._id} id={photo.id} work={photo} > {photo.name} </Work>
+                        <Work key={photo.id} work={photo} > {photo.name} </Work>
                     );
                 })}
 

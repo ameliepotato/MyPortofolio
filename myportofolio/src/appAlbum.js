@@ -3,10 +3,13 @@ const urlAlbumService = 'http://localhost:5001/album';
 const urlPictureService = 'http://localhost:5002/pictures';
 
 const appAlbum = {
-  createAlbum: async function (album) {
+  createAlbum: async function (album,callback) {
     try {
       const response = await axios.post(urlAlbumService, album);
       console.log('Album Created:', response.data);
+      if(callback){
+        callback(response.data);
+      }
       return response.data._id;
     } catch (error) {
       console.error('Error creating album:', error.response?.data || error.message);

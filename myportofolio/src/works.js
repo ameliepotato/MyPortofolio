@@ -79,11 +79,14 @@ function Works(props) {
                             pinned: false,
                             user: props.userId
                         };
-                        newAlbum.id = appAlbum.createAlbum(newAlbum);
-                        console.log('Album Created:', newAlbum);
-                        var copy = [...albums];
-                        copy.push(newAlbum);
-                        setAlbums(copy);
+                        newAlbum.id = appAlbum.createAlbum(newAlbum, (a) => {
+                            a.id = a._id;
+                            a._id = null;
+                            console.log('Album Created:', a);
+                            var copy = [...albums];
+                            copy.push(a);
+                            setAlbums(copy);
+                        });
                     } catch (error) {
                         console.error('Error creating album:', error.response?.data || error.message);
                     }
